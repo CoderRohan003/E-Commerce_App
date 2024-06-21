@@ -1,6 +1,6 @@
 import express from 'express';
-import {registerController, loginController, testController} from '../controllers/authController.js';
-import { requireSignIn } from '../middlewares/authMiddleware.js';
+import { registerController, loginController, testController } from '../controllers/authController.js';
+import { isAdmin, requireSignIn } from '../middlewares/authMiddleware.js';
 
 
 // Create a Router Object
@@ -14,6 +14,8 @@ router.post('/register', registerController);
 router.post('/login', loginController);
 
 // TestRoutes
-router.get('/test',requireSignIn, testController);
+//! Two Middleware check -> (1) checks sign in ; (2) checks if Admin 
+
+router.get('/test', requireSignIn, isAdmin, testController);
 
 export default router;
