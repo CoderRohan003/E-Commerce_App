@@ -6,7 +6,8 @@ import { Helmet } from "react-helmet";
 const Layout = ({children, title, description, author, keyword}) => {
     return (
         <div>
-            <Helmet>
+            {/* This is for SEO Optimization . React-Helmet is used */}
+            <Helmet>  
                 <meta charSet="utf-8" />
                 <title>Urban Cart | {title}</title>
                 <meta name="description" content={description} />
