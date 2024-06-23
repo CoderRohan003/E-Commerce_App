@@ -5,7 +5,7 @@ import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'; // Impo
 
 const ContactUs = () => {
     return (
-        <Layout>
+        <Layout title={"Contact Us"}>
             <div className="contact-banner">
                 <h1>Contact Us</h1>
                 <p>Got questions or feedback? We're here to help!</p>

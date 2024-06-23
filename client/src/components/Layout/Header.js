@@ -10,7 +10,10 @@ const Header = () => {
                         <span className="navbar-toggler-icon" />
                     </button>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                        <Link className="navbar-brand" to="/">Urban Cart</Link>
+                    <Link className="navbar-brand" to="/">
+                            <img src="/images/logo.png" alt="Urban Cart Logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
+                            Urban Cart
+                        </Link>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
                                 <NavLink exact to="/" className="nav-link">Home</NavLink>

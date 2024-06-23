@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Policy = () => {
     return (
-        <Layout>
+        <Layout title={"Privacy Policy"}>
             <div className="container my-5">
                 <div className="privacy-policy">
                     <h1 className='text-center mb-5'>Privacy Policy</h1>
