@@ -119,4 +119,8 @@ const testController = (req, res) => {
     }
 }
 
-export {registerController, loginController, testController};
+const dashboardController = (req, res) => {
+    res.status(200).send({ ok: true });
+}
+
+export {registerController, loginController, testController, dashboardController};

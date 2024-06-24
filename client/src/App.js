@@ -6,13 +6,15 @@ import Contact from "./pages/Contact";
 import Policy from "./pages/Policy";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
+import Dashboard from "./pages/user/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from "./components/Routes/Protected";
 
 function App() {
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover={false} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<Register />} />
@@ -22,6 +24,10 @@ function App() {
         <Route path="/policy" element={<Policy />} />
        {/* means if no other routes are found */}
         <Route path="*" element={<Pagenotfound />} />
+        {/* Protected routes for Dashboard */}
+        <Route path="/dashboard" element={<ProtectedRoute />} >
+        <Route path="" element={<Dashboard />} />
+        </Route>
       </Routes>
     </>
   );

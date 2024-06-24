@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Layout from '../../components/Layout/Layout';
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/auth';
 
 const Login = () => {
@@ -11,6 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const[auth, setAuth] = useAuth()
     const navigate = useNavigate();
+    const location = useLocation();
 
     // Handle submit function
     const handleSubmit = async (e) => {
@@ -35,7 +36,7 @@ const Login = () => {
                 //? Store the User Info in Local Storage
                 localStorage.setItem("auth", JSON.stringify(response.data));
                 //? Redirect to Home Page
-                navigate("/");
+                navigate(location.state || "/");
             } else {
                 console.log("User login unsuccessful");
                 toast.error(response.data.message);
