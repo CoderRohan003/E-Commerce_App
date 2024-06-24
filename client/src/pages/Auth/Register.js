@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Layout from '../../components/Layout/Layout';
 import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     // UseState Hooks 
@@ -10,17 +12,26 @@ const Register = () => {
     const [password, setPassword] = useState("")
     const [phone, setPhone] = useState("")
     const [address, setAddress] = useState("")
+    const navigate = useNavigate();
 
     // Handle submit function
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(name, email, password, phone, address);
-        toast.success("Registered Successfully");
-        setName("");
-        setAddress("");
-        setEmail("");
-        setPassword("");
-        setPhone("");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`, {name, email, password, phone, address});
+            if (response.data.success) {
+                console.log("User registration successful")
+                toast.success(response.data.message);
+                navigate("/login");
+            } else {
+                console.log("User registration Unsuccessful")
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Something went wrong");
+        }
+
     }
 
 

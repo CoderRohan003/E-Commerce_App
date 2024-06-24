@@ -7,17 +7,17 @@ const registerController = async (req, res) => {
         const { name, email, password, phone, address } = req.body;
         // Validations
         if (!name)
-            return res.status(400).send("Name is required");
+            return res.status(400).send({message:"Name is required"});
         if (!email)
-            return res.status(400).send("Email is required");
+            return res.status(400).send({message:"Email is required"});
         if (!phone)
-            return res.status(400).send("Phone No. is required");
+            return res.status(400).send({message:"Phone No. is required"});
         if (!password)
-            return res.status(400).send("Password is required");
+            return res.status(400).send({message:"Password is required"});
         if(password.length !== 8)
-            return res.status(400).send("Password must be 8 characters long");
+            return res.status(400).send({message:"Password must be 8 characters long"});
         if (!address)
-            return res.status(400).send("Address is required");
+            return res.status(400).send({message:"Address is required"});
 
         // Check if user already exists
         const existingUser = await userModel.findOne({ email });
@@ -61,9 +61,9 @@ const loginController = async (req, res) => {
         const { email, password } = req.body;
         // Validations
         if (!email)
-            return res.send("Email is required");
+            return res.send({message: "Email is required"});
         if (!password)
-            return res.send("Password is required");
+            return res.send({message: "Password is required"});
 
         // Check if user already exists
         const existingUser = await userModel.findOne({ email });
