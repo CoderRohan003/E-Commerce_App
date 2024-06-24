@@ -2,47 +2,30 @@ import React, { useState } from 'react';
 import Layout from '../../components/Layout/Layout';
 import { toast } from "react-toastify";
 import axios from "axios";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from '../../context/auth';
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const ForgotPassword = () => {
     // UseState Hooks 
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [auth, setAuth] = useAuth()
+    const [newPassword, setNewPassword] = useState("");
+    const [answer, setAnswer] = useState("");
     const navigate = useNavigate();
-    const location = useLocation();
 
     // Handle submit function
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/login`, { email, password });
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/forgot-password`, { email, newPassword, answer });
             if (response.data.success) {
-                console.log("User login successful");
+                console.log("Password reset successful");
                 toast.success(response.data.message);
-
-                // Set user in context
-                setAuth({
-                    ...auth,
-                    token: response.data.token,
-                    user: {
-                        name: response.data.user.name,
-                        email: response.data.user.email,
-                        phone: response.data.user.phone,
-                        address: response.data.user.address,
-                    }
-                })
-                //? Store the User Info in Local Storage
-                localStorage.setItem("auth", JSON.stringify(response.data));
-                //? Redirect to Home Page
-                navigate(location.state || "/");
+                // Redirect to login page
+                navigate("/login");
             } else {
-                console.log("User login unsuccessful");
+                console.log("Error in resetting password");
                 toast.error(response.data.message);
             }
         } catch (error) {
-            console.log(error);
             const err = JSON.parse(error.request.responseText).message
             console.log(err);
             toast.error(err);
@@ -50,11 +33,11 @@ const Login = () => {
     }
 
     return (
-        <Layout title="Login">
+        <Layout title="Reset Password">
             <div className="register-page">
                 <div className="container d-flex justify-content-center align-items-center">
                     <div className="register-card shadow p-5">
-                        <h1 className="register-heading text-center mb-4">Login</h1>
+                        <h1 className="register-heading text-center mb-4">Reset Password</h1>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputEmail" className="form-label">Email</label>
@@ -69,22 +52,31 @@ const Login = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+                                <label htmlFor="exampleInputNewPassword" className="form-label">New Password</label>
                                 <input
                                     type="password"
-                                    placeholder="Password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="New Password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
                                     className="form-control"
-                                    id="exampleInputPassword1"
+                                    id="exampleInputNewPassword"
                                     required
                                 />
                             </div>
-                            <button type="submit" className="btn btn-primary w-100">Login</button>
+                            <div className="mb-3">
+                                <label htmlFor="exampleInputAnswer" className="form-label">Answer</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter your Favorite place"
+                                    value={answer}
+                                    onChange={(e) => setAnswer(e.target.value)}
+                                    className="form-control"
+                                    id="exampleInputAnswer"
+                                    required
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-primary w-100">Reset Password</button>
                         </form>
-                        <div className="text-center mt-3">
-                            <NavLink to="/forgot-password" className="text-decoration-none">Forgot Password?</NavLink>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -92,4 +84,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default ForgotPassword;

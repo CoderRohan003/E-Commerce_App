@@ -10,6 +10,7 @@ import Dashboard from "./pages/user/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/Routes/Protected";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/policy" element={<Policy />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
        {/* means if no other routes are found */}
         <Route path="*" element={<Pagenotfound />} />
         {/* Protected routes for Dashboard */}

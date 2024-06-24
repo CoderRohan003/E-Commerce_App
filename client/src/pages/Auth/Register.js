@@ -12,13 +12,14 @@ const Register = () => {
     const [password, setPassword] = useState("")
     const [phone, setPhone] = useState("")
     const [address, setAddress] = useState("")
+    const [answer, setAnswer] = useState("")
     const navigate = useNavigate();
 
     // Handle submit function
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`, {name, email, password, phone, address});
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`, {name, email, password, phone, address, answer});
             if (response.data.success) {
                 console.log("User registration successful")
                 toast.success(response.data.message);
@@ -29,7 +30,9 @@ const Register = () => {
             }
         } catch (error) {
             console.log(error);
-            toast.error("Something went wrong");
+            const err = JSON.parse(error.request.responseText).message
+            console.log(err);
+            toast.error(err);
         }
 
     }
@@ -56,11 +59,15 @@ const Register = () => {
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputPhone" className="form-label">Phone</label>
-                                <input type="text" placeholder='+91-' value={phone} onChange={(e) => setPhone(e.target.value)} className="form-control" id="exampleInputPhone" />
+                                <input type="text" placeholder='+91-' value={phone} onChange={(e) => setPhone(e.target.value)} className="form-control" id="exampleInputPhone" required />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputAddress" className="form-label">Address</label>
-                                <input type="text" placeholder='1/23 - Mall Road' value={address} onChange={(e) => setAddress(e.target.value)} className="form-control" id="exampleInputAddress" />
+                                <input type="text" placeholder='1/23 - Mall Road' value={address} onChange={(e) => setAddress(e.target.value)} className="form-control" id="exampleInputAddress" required />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="exampleInputAnswer" className="form-label">Security Question:</label>
+                                <input type="text" placeholder='What is your Faviourite Place' value={answer} onChange={(e) => setAnswer(e.target.value)} className="form-control" id="exampleInputAnswer" required />
                             </div>
                             <button type="submit" className="btn btn-primary w-100">Submit</button>
                         </form>

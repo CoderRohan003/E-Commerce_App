@@ -12,7 +12,7 @@ const Header = () => {
             ...auth, user: null, token: ''
         });
         localStorage.removeItem('auth');
-    toast.success("Logged out Successfully");
+        toast.success("Logged out Successfully");
     }
     return (
         <>
@@ -52,8 +52,16 @@ const Header = () => {
                                         <NavLink to="/login" className="nav-link">Login</NavLink>
                                     </li>
                                 </>) : (<>
-                                    <li className="nav-item">
-                                        <NavLink onClick={handleLogout} to="/login" className="nav-link">Logout</NavLink>
+                                    <li className="nav-item dropdown">
+                                        <NavLink className="nav-link dropdown-toggle" to="/dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {auth?.user?.name}
+                                        </NavLink>
+                                        <ul className="dropdown-menu">
+                                            <li><NavLink className="dropdown-item" to="/dashboard">Dashboard</NavLink></li>
+                                            {/* <li><NavLink className="dropdown-item" to="#">Another action</NavLink></li> */}
+                                            <li><hr className="dropdown-divider" /></li>
+                                            <li><NavLink onClick={handleLogout} to="/login" className="dropdown-item">Logout</NavLink></li>
+                                        </ul>
                                     </li>
                                 </>)
                             }

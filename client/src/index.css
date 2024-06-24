@@ -170,14 +170,14 @@ ul.list-style li a:hover {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 70vh;
+  height: 60vh;
 }
 
 /* Background for the register page */
 .register-page {
   background: url('../public/images/register.jpeg') no-repeat center center fixed ;
   background-size: 100% auto;
-  height: 100vh;
+  height: 120vh;
   display: flex;
   justify-content: center;
   align-items: center;
