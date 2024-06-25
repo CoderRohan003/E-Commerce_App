@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout/Layout';
 import AdminMenu from '../../components/Layout/AdminMenu';
 import { useAuth } from '../../context/auth';
+import axios from 'axios';
 
 const AdminDashboard = () => {
     const [auth] = useAuth();
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API}/api/v1/category/get-all-categories`);
+                console.log(response);
+                if (response.data.success) {
+                    setCategories(response.data.categories);
+                } else {
+                    console.error("Failed to fetch categories");
+                }
+            } catch (error) {
+                console.error("Error fetching categories", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     return (
         <Layout title={"Admin Dashboard"}>
@@ -36,7 +56,7 @@ const AdminDashboard = () => {
                                     <div className="card text-white bg-success mb-3">
                                         <div className="card-header">Total Categories</div>
                                         <div className="card-body">
-                                            <h5 className="card-title">25</h5>
+                                            <h5 className="card-title">{categories.length}</h5>
                                             <p className="card-text">Number of categories in the database.</p>
                                         </div>
                                     </div>
@@ -55,12 +75,22 @@ const AdminDashboard = () => {
                                 <h3>Overview</h3>
                                 <p>Welcome to the admin dashboard. Here you can manage your products, categories, and users. Use the menu on the left to navigate through different management options. Below are some quick stats to give you an overview of the current status.</p>
                             </div>
+                            <div className="categories-panel mt-4">
+                                <h4>All Categories</h4>
+                                <ul className="list-group">
+                                    {categories.map(category => (
+                                        <li key={category._id} className="list-group-item">
+                                            {category.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </Layout>
     );
-}
+};
 
 export default AdminDashboard;

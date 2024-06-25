@@ -16,9 +16,9 @@ const AdminDashboard = () => {
                     </div>
                     <div className="col-md-9">
                         <div className="dashboard-content p-3 shadow-sm rounded">
-                            <h2 className="mb-4">Welcome to the Admin Dashboard</h2>
+                            <h2 className="mb-4">Welcome to Dashboard Mr. {auth?.user?.name}</h2>
                             <div className="admin-info mb-4 p-3 shadow-sm rounded">
-                                <h4>Admin Information</h4>
+                                <h4>User Information</h4>
                                 <p><strong>Name:</strong> {auth?.user?.name}</p>
                                 <p><strong>Email:</strong> {auth?.user?.email}</p>
                                 <p><strong>Phone:</strong> {auth?.user?.phone}</p>
