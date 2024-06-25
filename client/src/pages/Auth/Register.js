@@ -47,27 +47,27 @@ const Register = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputName" className="form-label" >Name</label>
-                                <input type="text" placeholder='John Smith' value={name} onChange={(e) => setName(e.target.value)} className="form-control" id="exampleInputName" required/>
+                                <input type="text" placeholder='John Smith' value={name} onChange={(e) => setName(e.target.value)} className="form-control" id="exampleInputName" autoComplete='off' required/>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputEmail" className="form-label">Email</label>
-                                <input type="email" placeholder='abc@gmail.com' value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" id="exampleInputEmail" required/>
+                                <input type="email" placeholder='abc@gmail.com' value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" id="exampleInputEmail" autoComplete='off' required/>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                                <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" id="exampleInputPassword1" required/>
+                                <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" id="exampleInputPassword1" autoComplete='new-password' required/>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputPhone" className="form-label">Phone</label>
-                                <input type="text" placeholder='+91-' value={phone} onChange={(e) => setPhone(e.target.value)} className="form-control" id="exampleInputPhone" required />
+                                <input type="text" placeholder='+91-' value={phone} onChange={(e) => setPhone(e.target.value)} className="form-control" id="exampleInputPhone" autoComplete='off' required />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputAddress" className="form-label">Address</label>
-                                <input type="text" placeholder='1/23 - Mall Road' value={address} onChange={(e) => setAddress(e.target.value)} className="form-control" id="exampleInputAddress" required />
+                                <input type="text" placeholder='1/23 - Mall Road' value={address} onChange={(e) => setAddress(e.target.value)} className="form-control" id="exampleInputAddress" autoComplete='off' required />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="exampleInputAnswer" className="form-label">Security Question:</label>
-                                <input type="text" placeholder='What is your Faviourite Place' value={answer} onChange={(e) => setAnswer(e.target.value)} className="form-control" id="exampleInputAnswer" required />
+                                <input type="text" placeholder='What is your Faviourite Place' value={answer} onChange={(e) => setAnswer(e.target.value)} className="form-control" id="exampleInputAnswer" autoComplete='off' required />
                             </div>
                             <button type="submit" className="btn btn-primary w-100">Submit</button>
                         </form>

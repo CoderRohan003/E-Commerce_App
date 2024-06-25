@@ -20,7 +20,10 @@ router.post('/forgot-password', forgotPasswordController);
 //? Two Middleware check -> (1) checks sign in ; (2) checks if Admin 
 router.get('/test', requireSignIn, isAdmin, testController);
 
-//? Protected Routes for Dashboard
+//? Protected Routes for Dashboard Users
 router.get('/user-auth', requireSignIn, dashboardController);
+
+//? Protected Routes for Dashboard Admin
+router.get('/admin-auth', requireSignIn, isAdmin, dashboardController);
 
 export default router;

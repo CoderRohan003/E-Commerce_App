@@ -11,6 +11,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/Routes/Protected";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import AdminRoute from "./components/Routes/AdminRoute";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 function App() {
   return (
@@ -26,9 +28,13 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
        {/* means if no other routes are found */}
         <Route path="*" element={<Pagenotfound />} />
-        {/* Protected routes for Dashboard */}
+        {/* Protected routes for User Dashboard */}
         <Route path="/dashboard" element={<ProtectedRoute />} >
-        <Route path="" element={<Dashboard />} />
+        <Route path="user" element={<Dashboard />} />
+        </Route>
+        {/* Protected routes for Admin Dashboard */}
+        <Route path="/dashboard" element={<AdminRoute />} >
+        <Route path="admin" element={<AdminDashboard />} />
         </Route>
       </Routes>
     </>

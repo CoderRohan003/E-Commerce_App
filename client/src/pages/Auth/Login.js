@@ -31,6 +31,7 @@ const Login = () => {
                         email: response.data.user.email,
                         phone: response.data.user.phone,
                         address: response.data.user.address,
+                        role: response.data.user.role
                     }
                 })
                 //? Store the User Info in Local Storage
