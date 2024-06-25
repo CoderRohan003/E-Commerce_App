@@ -16,7 +16,7 @@ router.put('/update-category/:id', requireSignIn, isAdmin, updateCategoryControl
 router.get('/get-all-categories', getAllCategoryController);
 
 //? Get a single category || GET
-router.get('/single-category/:slug', getSingleCategoryController);
+router.get('/get-category/:slug', getSingleCategoryController);
 
 //? Delete a category || DELETE
 router.delete('/delete-category/:id', deleteCategoryController);

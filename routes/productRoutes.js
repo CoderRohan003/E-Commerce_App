@@ -1,7 +1,7 @@
 import express from 'express';
 import { isAdmin, requireSignIn } from '../middlewares/authMiddleware.js';
 import formidable from 'express-formidable';
-import { createProductController } from '../controllers/productController.js';
+import { createProductController, deleteProductController, getAllProductController, getPhotoController, getSingleProductController, updateProductController } from '../controllers/productController.js';
 
 const router = express.Router();
 
@@ -10,17 +10,20 @@ const router = express.Router();
 //? Create a product || POST
 router.post('/create-product', requireSignIn, isAdmin, formidable(), createProductController);
 
-// //? Update a product || PUT
-// router.put('/update-product/:id', requireSignIn, isAdmin, updateProductController);
+//? Update a product || PUT
+router.put('/update-product/:pid', requireSignIn, isAdmin , formidable(), updateProductController);
 
-// //? Get all products || GET
-// router.get('/get-all-products', getAllProductController);
+//? Get all products || GET
+router.get('/get-all-products', getAllProductController);
 
-// //? Get a single product || GET
-// router.get('/single-product/:slug', getSingleProductController);
+//? Get a single product || GET
+router.get('/get-product/:slug', getSingleProductController);
 
-// //? Delete a product || DELETE
-// router.delete('/delete-product/:id', deleteProductController);
+//? get photo || GET
+router.get('/product-photo/:pid', getPhotoController);
+
+//? Delete a product || DELETE
+router.delete('/delete-product/:pid', deleteProductController);
 
 
 export default router;
