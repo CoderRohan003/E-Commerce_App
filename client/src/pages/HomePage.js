@@ -9,6 +9,24 @@ const HomePage = () => {
     const [categories, setCategories] = useState([]);
     const [checked, setChecked] = useState([]);
     const [radio, setRadio] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [page , setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    
+    // Get total count of products
+    const getTotalCount = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-count`);
+            const { data } = response;
+            if (data.success) {
+                setTotal(data?.totalProducts); // Assuming data.count is a number
+            } else {
+                console.error('Failed to fetch total count');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     // Function to fetch all categories
     const getAllCategories = async () => {
@@ -27,15 +45,37 @@ const HomePage = () => {
 
     useEffect(() => {
         getAllCategories();
+        getTotalCount();
     }, []); // Run once on component mount
 
     // TO get all proucts
     const getAllProducts = async () => {
         try {
-            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/get-all-products`);
+            setLoading(true);
+            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`);
+            setLoading(false);
             setProducts(data.products);
         } catch (error) {
+            setLoading(false);
             console.log(error);
+        }
+    };
+
+    useEffect(()=>{
+        if(page === 1) return; 
+        loadMore()
+    },[page])
+
+    // Load More
+    const loadMore = async () => {
+        try {
+            setLoading(true);
+            const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`);
+            setLoading(false);
+            setProducts([...products, ...data?.products])
+        } catch (error) {
+            console.log(error);
+            setLoading(false); 
         }
     };
 
@@ -92,6 +132,7 @@ const HomePage = () => {
                             ))}
                         </Radio.Group>
                     </div>
+                    
                     <div className="d-flex flex-column">
                         <button className="btn btn-danger mt-4" onClick={() => window.location.reload()}>Reset Filters</button>
                     </div>
@@ -122,6 +163,11 @@ const HomePage = () => {
 
                         ))}
                     </div>
+                    <div className='m-2 p-2'>
+                        {products && products.length < total && (
+                            <button className='btn btn-warning' onClick={(e) => {e.preventDefault();  setPage(page + 1)}}>{loading ? "loading..." : "Load More"}</button>
+                        )}
+                 </div>
                 </div>
             </div>
         </Layout>

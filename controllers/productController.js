@@ -65,7 +65,7 @@ const updateProductController = async (req, res) => {
             // case photo && photo.size > 1000000:
             //     return res.status(500).send({ error: "Photo is required and should be less that 1mb" });
         }
-        const product = await productModel.findByIdAndUpdate(req.params.pid, {...req.fields, slug: slugify(name)}, { new: true });
+        const product = await productModel.findByIdAndUpdate(req.params.pid, { ...req.fields, slug: slugify(name) }, { new: true });
         if (photo) {
             product.photo.data = fs.readFileSync(photo.path);
             product.photo.contentType = photo.type;
@@ -172,12 +172,12 @@ const deleteProductController = async (req, res) => {
 // Filter Products Controller
 const filterProductsController = async (req, res) => {
     try {
-        const {checked , radio} = req.body;
+        const { checked, radio } = req.body;
         let args = {}
         if (checked.length > 0) {
             args.category = checked
         }
-        if(radio.length) args.price = {$gte: radio[0], $lte: radio[1]}
+        if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] }
         const products = await productModel.find(args)
         res.status(200).send({
             success: true,
@@ -195,5 +195,45 @@ const filterProductsController = async (req, res) => {
     }
 };
 
-// export { createProductController, updateProductController, getAllProductController, getSingleProductController, deleteProductController };
-export { filterProductsController, createProductController, updateProductController, deleteProductController, getPhotoController, getAllProductController, getSingleProductController };
+// Product Count Controller
+
+const countProductsController = async (req, res) => {
+    try {
+        const count = await productModel.find({}).estimatedDocumentCount();
+        res.status(200).send({
+            success: true,
+            totalProducts: count,
+            message: 'Product Count'
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: 'Error counting products',
+            error
+        });
+    }
+};
+
+// Product list based on page
+const getProductsController = async (req, res) => {
+    try {
+        const perPage = 6
+        const page = req.params.page ? req.params.page : 1;
+        const products = await productModel.find({}).select("-photo").skip((page - 1) * perPage).limit(perPage).sort({ createdAt: -1 });
+        res.status(200).send({
+            success: true,
+            products,
+            message: 'Got per page product'
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: 'Error per page get products',
+            error
+        });
+    }
+}
+
+export { getProductsController, countProductsController, filterProductsController, createProductController, updateProductController, deleteProductController, getPhotoController, getAllProductController, getSingleProductController };
