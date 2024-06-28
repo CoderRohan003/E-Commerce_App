@@ -26,10 +26,10 @@ const AdminDashboard = () => {
                             </div>
                             <div className="row mb-4">
                                 <div className="col-md-4">
-                                    <div className="card text-white bg-primary mb-3">
+                                    <div className="card-dashboard text-white bg-primary mb-3">
                                         <div className="card-header">Total Orders</div>
-                                        <div className="card-body">
-                                            <h5 className="card-title">150</h5>
+                                        <div className="card-body-dashboard">
+                                            <h5 className="card-title-dashboard">150</h5>
                                         </div>
                                     </div>
                                 </div>
