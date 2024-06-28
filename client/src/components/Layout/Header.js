@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
 import { toast } from 'react-toastify';
+import SearchInput from '../Form/SearchInput';
 
 const Header = () => {
     const [auth, setAuth] = useAuth();
@@ -27,6 +28,7 @@ const Header = () => {
                             Urban Cart
                         </Link>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <SearchInput/>
                             <li className="nav-item">
                                 <NavLink to="/" className="nav-link">Home</NavLink>
                             </li>

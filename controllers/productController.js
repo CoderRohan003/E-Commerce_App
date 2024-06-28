@@ -236,4 +236,26 @@ const getProductsController = async (req, res) => {
     }
 }
 
-export { getProductsController, countProductsController, filterProductsController, createProductController, updateProductController, deleteProductController, getPhotoController, getAllProductController, getSingleProductController };
+// Search for products
+const searchProductsController = async (req, res) => {
+    try {
+        const {keyword} = req.params
+        const result = await productModel.find({
+            $or: [
+                { name: { $regex: keyword, $options: 'i' } },  // i means case insensitive
+                { description: { $regex: keyword, $options: 'i' } },
+                
+            ]
+        }).select("-photo")
+        res.json(result)
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: 'Error searching products',
+            error
+        });
+    }
+};
+
+export {searchProductsController, getProductsController, countProductsController, filterProductsController, createProductController, updateProductController, deleteProductController, getPhotoController, getAllProductController, getSingleProductController };
