@@ -51,8 +51,24 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        getAllProducts();
-    }, [])
+        if (!checked.length || !radio.length)
+            getAllProducts();
+    }, [checked.length,radio.length]);
+
+    useEffect(() => {
+        if (checked.length || radio.length)
+            filteredProducts();
+    }, [checked, radio]);
+
+    // Get filtered products
+    const filteredProducts = async () => {
+        try {
+            const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/product/products-filter`, { checked, radio });
+            setProducts(data.products);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <Layout title={"Home Page"}>
@@ -76,10 +92,12 @@ const HomePage = () => {
                             ))}
                         </Radio.Group>
                     </div>
+                    <div className="d-flex flex-column">
+                        <button className="btn btn-danger mt-4" onClick={() => window.location.reload()}>Reset Filters</button>
+                    </div>
 
                 </div>
                 <div className="col-md-9">
-                    {JSON.stringify(checked, null, 4)}
                     <h1 className="text-center">All Products</h1>
                     <div className="d-flex flex-wrap">
                         {products?.map((p) => (
@@ -95,7 +113,8 @@ const HomePage = () => {
                                 </div>
                                 <div className="card-body text-center">
                                     <h5 className="card-title">{p.name}</h5>
-                                    <p className="card-text">{p.description}</p>
+                                    <p className="card-text">{p.description.substring(0,30)}...</p>
+                                    <p className="card-text"> ₹ {p.price}</p>
                                     <button className='btn btn-primary mx-1' >More Details</button>
                                     <button className='btn btn-secondary mx-1'>Add to Cart</button>
                                 </div>
