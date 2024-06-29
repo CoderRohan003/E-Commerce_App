@@ -239,12 +239,12 @@ const getProductsController = async (req, res) => {
 // Search for products
 const searchProductsController = async (req, res) => {
     try {
-        const {keyword} = req.params
+        const { keyword } = req.params
         const result = await productModel.find({
             $or: [
                 { name: { $regex: keyword, $options: 'i' } },  // i means case insensitive
                 { description: { $regex: keyword, $options: 'i' } },
-                
+
             ]
         }).select("-photo")
         res.json(result)
@@ -258,4 +258,29 @@ const searchProductsController = async (req, res) => {
     }
 };
 
-export {searchProductsController, getProductsController, countProductsController, filterProductsController, createProductController, updateProductController, deleteProductController, getPhotoController, getAllProductController, getSingleProductController };
+// Find similar products
+const getSimilarProductsController = async (req, res) => {
+    try {
+        const limitSimilarProducts_number = 10
+        const { pid, cid } = req.params;
+        const products = await productModel.find({
+            category: cid,
+            _id: { $ne: pid },  // ne is not included
+        }).select("-photo").limit(limitSimilarProducts_number).populate("category");
+        res.status(200).send({
+            success: true,
+            message: 'Similar Products List',
+            products
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error getting similar products',
+            error
+        });
+    }
+};
+
+
+export { getSimilarProductsController, searchProductsController, getProductsController, countProductsController, filterProductsController, createProductController, updateProductController, deleteProductController, getPhotoController, getAllProductController, getSingleProductController };
