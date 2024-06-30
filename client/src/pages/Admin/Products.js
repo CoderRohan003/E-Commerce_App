@@ -143,6 +143,7 @@ import Layout from "./../../components/Layout/Layout";
 
 const Products = () => {
     const [products, setProducts] = useState([]);
+    const charsInDescription = 50
 
     // Get all products
     const getAllProducts = async () => {
@@ -197,7 +198,9 @@ const Products = () => {
                                     </div>
                                     <div className="card-body text-center">
                                         <h5 className="card-title">{p.name}</h5>
-                                        <p className="card-text">{p.description}</p>
+                                        <p className="card-text">
+                                        {p.description.length > charsInDescription ? p.description.substring(0, charsInDescription) + "..." : p.description}
+                                        </p>
                                     </div>
                                 </div>
                             </Link>

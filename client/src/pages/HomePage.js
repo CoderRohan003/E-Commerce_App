@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Checkbox, Radio } from "antd";
 import { Prices } from '../components/Prices';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from "../context/cart";
+import { toast } from 'react-toastify';
 
 const HomePage = () => {
     const [products, setProducts] = useState([]);
@@ -11,11 +13,12 @@ const HomePage = () => {
     const [checked, setChecked] = useState([]);
     const [radio, setRadio] = useState([]);
     const [total, setTotal] = useState(0);
-    const [page , setPage] = useState(1);
+    const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [cart, setCart] = useCart();
 
     const navigate = useNavigate();
-    
+
     // Get total count of products
     const getTotalCount = async () => {
         try {
@@ -64,20 +67,20 @@ const HomePage = () => {
         }
     };
 
-    useEffect(()=>{
-        if(page === 1) return; 
+    useEffect(() => {
+        if (page === 1) return;
         loadMore()
-    },[page])
+    }, [page])
     // Load More
     const loadMore = async () => {
         try {
             setLoading(true);
-            const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`);
+            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`);
             setLoading(false);
             setProducts([...products, ...data?.products])
         } catch (error) {
             console.log(error);
-            setLoading(false); 
+            setLoading(false);
         }
     };
 
@@ -95,7 +98,7 @@ const HomePage = () => {
     useEffect(() => {
         if (!checked.length || !radio.length)
             getAllProducts();
-    }, [checked.length,radio.length]);
+    }, [checked.length, radio.length]);
 
     useEffect(() => {
         if (checked.length || radio.length)
@@ -134,7 +137,7 @@ const HomePage = () => {
                             ))}
                         </Radio.Group>
                     </div>
-                    
+
                     <div className="d-flex flex-column">
                         <button className="btn btn-danger mt-4" onClick={() => window.location.reload()}>Reset Filters</button>
                     </div>
@@ -156,10 +159,14 @@ const HomePage = () => {
                                 </div>
                                 <div className="card-body text-center">
                                     <h5 className="card-title">{p.name}</h5>
-                                    <p className="card-text">{p.description.substring(0,30)}...</p>
+                                    <p>{p.description.length > 50 ? p.description.substring(0, 50) + "..." : p.description}</p>
                                     <p className="card-text"> ₹ {p.price}</p>
                                     <button className='btn btn-primary mx-1' onClick={() => navigate(`/product/${p.slug}`)}>More Details</button>
-                                    <button className='btn btn-secondary mx-1'>Add to Cart</button>
+                                    <button className='btn btn-secondary mx-1' onClick={() => {
+                                        setCart([...cart, p]);
+                                        localStorage.setItem('cart', JSON.stringify([...cart,p]))
+                                        toast.success("Item added to Cart")
+                                    }}>Add to Cart</button>
                                 </div>
                             </div>
 
@@ -167,9 +174,9 @@ const HomePage = () => {
                     </div>
                     <div className='m-2 p-2'>
                         {products && products.length < total && (
-                            <button className='btn btn-warning' onClick={(e) => {e.preventDefault();  setPage(page + 1)}}>{loading ? "loading..." : "Load More"}</button>
+                            <button className='btn btn-warning' onClick={(e) => { e.preventDefault(); setPage(page + 1) }}>{loading ? "loading..." : "Load More"}</button>
                         )}
-                 </div>
+                    </div>
                 </div>
             </div>
         </Layout>

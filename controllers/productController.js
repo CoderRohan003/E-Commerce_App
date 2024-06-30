@@ -1,5 +1,6 @@
 import slugify from "slugify";
-import productModel from "../models/productModel.js";  // Ensure .js extension is included if using ES Modules
+import productModel from "../models/productModel.js";  // Ensure .js extension is included if using ES Modules;
+import categoryModel from "../models/categoryModel.js";
 import fs from 'fs';
 
 const createProductController = async (req, res) => {
@@ -282,5 +283,28 @@ const getSimilarProductsController = async (req, res) => {
     }
 };
 
+// Get products by category
 
-export { getSimilarProductsController, searchProductsController, getProductsController, countProductsController, filterProductsController, createProductController, updateProductController, deleteProductController, getPhotoController, getAllProductController, getSingleProductController };
+const categoryProductsController = async (req, res) => {
+    try {
+        const category = await categoryModel.findOne({ slug: req.params.slug});
+        const products = await productModel.find({ category }).populate('category');
+        
+        res.status(200).send({
+            success: true,
+            message: 'Products by Category',
+            category,
+            products
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: `Error getting products by category '${req.params.cid}'`,
+            error
+        });
+    }
+};
+
+
+export { categoryProductsController, getSimilarProductsController, searchProductsController, getProductsController, countProductsController, filterProductsController, createProductController, updateProductController, deleteProductController, getPhotoController, getAllProductController, getSingleProductController };
