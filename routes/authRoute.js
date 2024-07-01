@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerController, loginController, testController, dashboardController, forgotPasswordController } from '../controllers/authController.js';
+import { registerController, loginController, testController, dashboardController, forgotPasswordController, updateProfileController } from '../controllers/authController.js';
 import { isAdmin, requireSignIn } from '../middlewares/authMiddleware.js';
 
 
@@ -22,6 +22,9 @@ router.get('/test', requireSignIn, isAdmin, testController);
 
 //? Protected Routes for Dashboard Users
 router.get('/user-auth', requireSignIn, dashboardController);
+
+//? Protected Routes for Dashboard Users | Update Profile | Put
+router.put('/profile', requireSignIn, updateProfileController);
 
 //? Protected Routes for Dashboard Admin
 router.get('/admin-auth', requireSignIn, isAdmin, dashboardController);
