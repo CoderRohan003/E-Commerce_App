@@ -1,4 +1,5 @@
 import { comparePassword, hashPassword } from '../helpers/authEncryption.js';
+import orderModel from '../models/orderModel.js';
 import userModel from '../models/userModel.js';
 import JWT from "jsonwebtoken";
 
@@ -193,4 +194,18 @@ const updateProfileController = async (req, res) => {
     }
 };
 
-export { updateProfileController, registerController, loginController, testController, dashboardController, forgotPasswordController };
+const orderController = async (req, res) => {
+    try {
+        const orders = await orderModel.find({buyers:req.user._id}).populate("products" , -"photo").populate("buyers","name") ;
+        res.json(orders);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: 'Error updating order',
+            error
+        });
+    }
+}
+
+export { orderController, updateProfileController, registerController, loginController, testController, dashboardController, forgotPasswordController };
