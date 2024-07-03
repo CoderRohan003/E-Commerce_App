@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout/Layout'
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import AddToCartButton from '../components/AddToCartButton';
 
 const CategoryProduct = () => {
     const [product, setProduct] = useState([]);
@@ -45,7 +46,7 @@ const CategoryProduct = () => {
                                     <p className="card-text">{p.description.substring(0,30)}...</p>
                                     <p className="card-text"> ₹ {p.price}</p>
                                     <button className='btn btn-primary mx-1' onClick={() => navigate(`/product/${p.slug}`)}>More Details</button>
-                                    <button className='btn btn-secondary mx-1'>Add to Cart</button>
+                                    <AddToCartButton product={p} />
                                 </div>
                             </div>
 

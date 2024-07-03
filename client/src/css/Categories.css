@@ -1,0 +1,42 @@
+.category-card {
+    text-decoration: none;
+    display: block;
+}
+
+.category-card .card {
+    background-color: rgb(231, 230, 230);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card .card-title {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;;
+    color: rgb(46, 18, 255);
+    transition: color 0.3s ease;
+}
+
+.category-card:hover .card {
+    background-color: yellow;
+}
+
+.category-card:hover .card-title {
+    color: black;
+}
+
+.corner-decoration {
+    position: absolute;
+    top: -90px;
+    right: -100px;
+    width: 85px;
+    height: 100px;
+    background-color: rgb(255, 0, 238);
+    transform: rotate(45deg);
+    transition: top 0.3s ease, right 0.3s ease;
+}
+
+.category-card:hover .corner-decoration {
+    top: -20px;
+    right: -20px;
+}

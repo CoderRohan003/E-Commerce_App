@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import CategoryForm from '../../components/Form/CategoryForm';
 import { Modal } from 'antd';
+import '../../css/CreateCategory.css';
 
 const CreateCategory = () => {
     const [categories, setCategories] = useState([]);

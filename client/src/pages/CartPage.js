@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 
 const CartPage = () => {
     const [cart, setCart] = useCart();
-    const [auth, setAuth] = useAuth();
+    const [auth] = useAuth();
     const navigate = useNavigate();
     const [clientToken, setClientToken] = useState("");
     const [instance, setInstance] = useState(null); // Ensure initial state is null
@@ -121,7 +121,7 @@ const CartPage = () => {
                                 </div>
                                 <div className="col-md-8">
                                     <h4>{p.name}</h4>
-                                    <p className='mt-4'>{p.description.length > 300 ? p.description.substring(0, 300) + "..." : p.description}</p>
+                                    <p className='mt-4'>{p.description ? (p.description.length > 300 ? p.description.substring(0, 300) + "..." : p.description) : "No description available"}</p>
                                     <p>Price: ₹ {p.price}</p>
                                     <button className='btn btn-danger' onClick={() => removeCartItem(p._id)}>Remove</button>
                                 </div>
@@ -203,6 +203,7 @@ const CartPage = () => {
 };
 
 export default CartPage;
+
 
 
 

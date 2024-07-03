@@ -3,6 +3,7 @@ import Layout from '../../components/Layout/Layout';
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import '../../css/Register.css';
 
 const Register = () => {
     // UseState Hooks 

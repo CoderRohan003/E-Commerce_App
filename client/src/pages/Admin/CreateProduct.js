@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import '../../css/CreateProduct.css'
 
 const { Option } = Select;
 

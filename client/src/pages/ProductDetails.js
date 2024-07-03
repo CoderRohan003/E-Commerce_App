@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout/Layout'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import AddToCartButton from '../components/AddToCartButton'
 
 const ProductDetails = () => {
     // get product details
@@ -18,14 +19,14 @@ const ProductDetails = () => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/get-product/${params.slug}`);
             setProduct(data?.product);
-            getRelatedProducts(data?.product._id , data?.product.category._id);
+            getRelatedProducts(data?.product._id, data?.product.category._id);
         } catch (error) {
             console.log(error)
         }
     };
 
     // Get similar Products 
-        
+
     const getRelatedProducts = async (pid, cid) => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/similar-products/${pid}/${cid}`);
@@ -43,7 +44,7 @@ const ProductDetails = () => {
                         src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${product._id}`}
                         className="card-img-top"
                         alt={product.name}
-                        style={{ maxWidth: '70%', height: 'auto' , margin:"2rem" , outline:"1px solid black" }}
+                        style={{ maxWidth: '70%', height: 'auto', margin: "2rem", outline: "1px solid black" }}
                     />
                 </div>
                 <div className="col-md-6">
@@ -54,9 +55,10 @@ const ProductDetails = () => {
                     <h6>Price : {product.price}</h6>
                     <h6>Category : {product?.category?.name}</h6>
                     <h6>Shipping : {product.shipping ? "Available" : "Not Available"}  in your location</h6>
-                    <button className='btn btn-warning'>Add to Cart</button>
+                    <AddToCartButton product={product} />
                 </div>
                 <hr />
+
                 <div className="row">
                     <h3>Similar Products</h3>
                     {/* {JSON.stringify(relatedProduct, null, 4)} */}
@@ -75,10 +77,9 @@ const ProductDetails = () => {
                                 </div>
                                 <div className="card-body text-center">
                                     <h5 className="card-title">{p.name}</h5>
-                                    <p className="card-text">{p.description.substring(0,30)}...</p>
+                                    <p className="card-text">{p.description.substring(0, 30)}...</p>
                                     <p className="card-text"> ₹ {p.price}</p>
-                                    <button className='btn btn-secondary mx-1'>Add to Cart</button>
-                                </div>
+                                    <AddToCartButton product={p} />                                </div>
                             </div>
 
                         ))}

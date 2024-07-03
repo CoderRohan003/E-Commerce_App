@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout/Layout';
 import axios from 'axios';
 import { Checkbox, Radio } from "antd";
 import { Prices } from '../components/Prices';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from "../context/cart";
-import { toast } from 'react-toastify';
+import AddToCartButton from '../components/AddToCartButton'; // Import the new component
 
 const HomePage = () => {
     const [products, setProducts] = useState([]);
@@ -15,7 +14,6 @@ const HomePage = () => {
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    const [cart, setCart] = useCart();
 
     const navigate = useNavigate();
 
@@ -54,7 +52,7 @@ const HomePage = () => {
         getTotalCount();
     }, []); // Run once on component mount
 
-    // TO get all proucts
+    // TO get all products
     const getAllProducts = async () => {
         try {
             setLoading(true);
@@ -69,15 +67,16 @@ const HomePage = () => {
 
     useEffect(() => {
         if (page === 1) return;
-        loadMore()
-    }, [page])
+        loadMore();
+    }, [page]);
+
     // Load More
     const loadMore = async () => {
         try {
             setLoading(true);
             const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`);
             setLoading(false);
-            setProducts([...products, ...data?.products])
+            setProducts([...products, ...data?.products]);
         } catch (error) {
             console.log(error);
             setLoading(false);
@@ -86,7 +85,7 @@ const HomePage = () => {
 
     // Function to filter products by category
     const handleFilter = (value, categoryId) => {
-        let all = [...checked]
+        let all = [...checked];
         if (value) {
             all.push(categoryId);
         } else {
@@ -96,13 +95,11 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        if (!checked.length || !radio.length)
-            getAllProducts();
+        if (!checked.length || !radio.length) getAllProducts();
     }, [checked.length, radio.length]);
 
     useEffect(() => {
-        if (checked.length || radio.length)
-            filteredProducts();
+        if (checked.length || radio.length) filteredProducts();
     }, [checked, radio]);
 
     // Get filtered products
@@ -113,7 +110,7 @@ const HomePage = () => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     return (
         <Layout title={"Home Page"}>
@@ -122,33 +119,31 @@ const HomePage = () => {
                     <h4 className="text-center">Filter By Category</h4>
                     <div className="d-flex flex-column">
                         {categories?.map(category => (
-                            <Checkbox key={category._id} onChange={(e) => handleFilter(e.target.checked, category._id)}>{category.name}</Checkbox>
+                            <Checkbox key={category._id} onChange={(e) => handleFilter(e.target.checked, category._id)}>
+                                {category.name}
+                            </Checkbox>
                         ))}
                     </div>
-                    {/* Filter by Price  */}
+                    {/* Filter by Price */}
                     <h4 className="text-center mt-5">Filter By Price</h4>
                     <div className="d-flex flex-column">
                         <Radio.Group onChange={e => setRadio(e.target.value)}>
                             {Prices?.map((p) => (
                                 <div key={p._id}>
                                     <Radio value={p.array}>{p.name}</Radio>
-
                                 </div>
                             ))}
                         </Radio.Group>
                     </div>
-
                     <div className="d-flex flex-column">
                         <button className="btn btn-danger mt-4" onClick={() => window.location.reload()}>Reset Filters</button>
                     </div>
-
                 </div>
                 <div className="col-md-9">
                     <h1 className="text-center">All Products</h1>
-                    <div className="d-flex flex-wrap">
+                    <div className="d-flex flex-wrap mr-5">
                         {products?.map((p) => (
-
-                            <div className="card m-3" style={{ width: "21rem", minHeight: "19.5rem" }}>
+                            <div className="card m-3" style={{ width: "21rem", minHeight: "19.5rem" }} key={p._id}>
                                 <div className="d-flex justify-content-center" style={{ backgroundColor: "lightgray" }}>
                                     <img
                                         src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
@@ -162,19 +157,16 @@ const HomePage = () => {
                                     <p>{p.description.length > 50 ? p.description.substring(0, 50) + "..." : p.description}</p>
                                     <p className="card-text"> ₹ {p.price}</p>
                                     <button className='btn btn-primary mx-1' onClick={() => navigate(`/product/${p.slug}`)}>More Details</button>
-                                    <button className='btn btn-secondary mx-1' onClick={() => {
-                                        setCart([...cart, p]);
-                                        localStorage.setItem('cart', JSON.stringify([...cart,p]))
-                                        toast.success("Item added to Cart")
-                                    }}>Add to Cart</button>
+                                    <AddToCartButton product={p} />
                                 </div>
                             </div>
-
                         ))}
                     </div>
                     <div className='m-2 p-2'>
                         {products && products.length < total && (
-                            <button className='btn btn-warning' onClick={(e) => { e.preventDefault(); setPage(page + 1) }}>{loading ? "loading..." : "Load More"}</button>
+                            <button className='btn btn-warning' onClick={(e) => { e.preventDefault(); setPage(page + 1); }}>
+                                {loading ? "loading..." : "Load More"}
+                            </button>
                         )}
                     </div>
                 </div>
@@ -184,6 +176,8 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+
 
 
 

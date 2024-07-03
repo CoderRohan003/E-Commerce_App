@@ -1,0 +1,36 @@
+/** =============================== Spinner CSS ==================================== */
+
+.spinner-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+  }
+  
+  .spinner-text {
+    margin-bottom: 30px;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    font-family: "Poppins", serif;
+    
+  }
+  
+  .spinner-border-custom {
+    width: 4rem;
+    height: 4rem;
+    border-width: 0.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  
+  
+  
+  
+  

@@ -1,7 +1,8 @@
 import { comparePassword, hashPassword } from '../helpers/authEncryption.js';
-import orderModel from '../models/orderModel.js';
+import Order from '../models/orderModel.js';
 import userModel from '../models/userModel.js';
 import JWT from "jsonwebtoken";
+
 
 const registerController = async (req, res) => {
     try {
@@ -186,7 +187,7 @@ const updateProfileController = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(400).send({
+        res.status(500).send({
             success: false,
             message: 'Error updating profile',
             error
@@ -194,18 +195,87 @@ const updateProfileController = async (req, res) => {
     }
 };
 
+
 const orderController = async (req, res) => {
     try {
-        const orders = await orderModel.find({buyers:req.user._id}).populate("products" , -"photo").populate("buyers","name") ;
+        const orders = await Order.find({ buyers: req.user._id })
+            .populate({
+                path: 'products.product', // Change from products to products.product
+                select: '-photo' // Add the fields you need
+            })
+            .populate('buyers', 'name');
+
         res.json(orders);
     } catch (error) {
         console.log(error);
-        res.status(400).send({
+        res.status(500).send({
             success: false,
-            message: 'Error updating order',
+            message: 'Error fetching orders',
+            error
+        });
+    }
+};
+
+
+
+const getAllordersController = async (req, res) => {
+    try {
+        const orders = await Order.find({})
+            .populate({
+                path: 'products.product', // Populate the 'product' field within the 'products' array
+                select: '-photo' // Exclude the 'photo' field from 'product'
+            })
+            .populate('buyers', 'name') // Populate 'buyers' with only the 'name' field
+            .sort({ createdAt: -1 }); // Sort orders by createdAt in descending order
+
+        res.json(orders);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error fetching orders',
+            error
+        });
+    }
+};
+
+// order status update
+const updateOrderStatusController = async (req, res) => {
+    try {
+            const { orderId } = req.params
+            const { status } = req.body;
+            const order = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
+            res.json(order);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error updating status of orders',
             error
         });
     }
 }
 
-export { orderController, updateProfileController, registerController, loginController, testController, dashboardController, forgotPasswordController };
+
+
+const getAllUsersController = async (req, res) => {
+    try {
+        const users = await userModel.find({})
+            .select('name email phone address role createdAt') // Select the fields you need
+            .exec();
+
+        res.json(users);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(400).json({
+            success: false,
+            message: 'Error fetching users',
+            error: error.message,
+        });
+    }
+};
+
+
+
+
+export { getAllUsersController, updateOrderStatusController, getAllordersController, orderController, updateProfileController, registerController, loginController, testController, dashboardController, forgotPasswordController };

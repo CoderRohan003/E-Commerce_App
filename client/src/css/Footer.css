@@ -1,0 +1,11 @@
+/** ========== Footer CSS ============== */
+
+ul.list-style li a {
+    text-decoration: none;
+  }
+  
+  /* Add underline only when hovered */
+  ul.list-style li a:hover {
+    text-decoration: underline;
+  }
+  

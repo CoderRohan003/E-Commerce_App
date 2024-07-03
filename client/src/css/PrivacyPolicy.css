@@ -1,0 +1,25 @@
+/** ====================================== Privacy Policy ============================= */
+
+.privacy-policy {
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .privacy-policy h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .privacy-policy h2 {
+    font-size: 2rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+  
+  .privacy-policy p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+  

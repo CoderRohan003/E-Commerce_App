@@ -4,6 +4,7 @@ import { useAuth } from '../../context/auth';
 import UserMenu from '../../components/Layout/UserMenu';
 import { FaRegSmile } from 'react-icons/fa';
 import { useCart } from '../../context/cart';
+import '../../css/Dashboard.css';
 
 const Dashboard = () => {
     const [auth] = useAuth();

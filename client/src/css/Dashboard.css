@@ -1,0 +1,53 @@
+/** =========================================== Dashboard CSS ========================================== */
+
+.dashboard-content {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .card-dashboard {
+    border-radius: 8px;
+    padding: 20px;
+    color: #fff;
+  }
+  
+  .card-header-dashboard {
+    font-size: 1.25rem;
+  }
+  
+  .card-title-dashboard {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .admin-info {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  
+  .admin-info:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+  }
+  
+  .overview-panel {
+    margin-top: 20px;
+  }
+  
+  h4 {
+    font-size: 1.5rem;
+  }
+  
+  p {
+    font-size: 1rem;
+  }
+  
+  
+  
+  
+  

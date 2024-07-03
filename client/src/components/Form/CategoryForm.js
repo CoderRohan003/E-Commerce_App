@@ -1,4 +1,5 @@
 import React from "react";
+import '../../css/CategoryForm.module.css'
 
 const CategoryForm = ({ handleSubmit, value, setValue }) => {
     return (
