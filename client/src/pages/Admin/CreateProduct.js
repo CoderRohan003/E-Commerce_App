@@ -169,7 +169,7 @@ const CreateProduct = () => {
                                         Shipping Available
                                     </label>
                                 </div>
-                                <button type="submit" className="btn btn-primary">
+                                <button type="submit" className="btn2 btn-primary-cp">
                                     Create Product
                                 </button>
                             </form>

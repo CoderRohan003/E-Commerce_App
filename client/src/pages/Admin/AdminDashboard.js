@@ -7,6 +7,35 @@ import axios from 'axios';
 const AdminDashboard = () => {
     const [auth] = useAuth();
     const [categories, setCategories] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [totalUsers, setTotalUsers] = useState(0); // State to hold total users count
+
+    const getAllProducts = async () => {
+        try {
+            const { data } = await axios.get(
+                `${process.env.REACT_APP_API}/api/v1/product/get-all-products`
+            );
+            setProducts(data.products);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const getTotalUsers = async () => {
+        try {
+            const { data } = await axios.get(
+                `${process.env.REACT_APP_API}/api/v1/auth/admin-users`
+            );
+            setTotalUsers(data.length); // Assuming API returns an array of users
+        } catch (error) {
+            console.error('Error fetching total users:', error);
+        }
+    };
+
+    useEffect(() => {
+        getAllProducts();
+        getTotalUsers(); // Fetch total users on component mount
+    }, []);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -47,7 +76,7 @@ const AdminDashboard = () => {
                                     <div className="card text-white bg-primary mb-3">
                                         <div className="card-header">Total Products</div>
                                         <div className="card-body">
-                                            <h5 className="card-title">150</h5>
+                                            <h5 className="card-title">{products.length}</h5>
                                             <p className="card-text">Number of products in the database.</p>
                                         </div>
                                     </div>
@@ -65,7 +94,7 @@ const AdminDashboard = () => {
                                     <div className="card text-white bg-warning mb-3">
                                         <div className="card-header">Total Users</div>
                                         <div className="card-body">
-                                            <h5 className="card-title">300</h5>
+                                            <h5 className="card-title">{totalUsers}</h5>
                                             <p className="card-text">Number of registered users.</p>
                                         </div>
                                     </div>

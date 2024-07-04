@@ -257,10 +257,9 @@ const updateOrderStatusController = async (req, res) => {
 }
 
 
-
 const getAllUsersController = async (req, res) => {
     try {
-        const users = await userModel.find({})
+        const users = await userModel.find({ role: 0 })
             .select('name email phone address role createdAt') // Select the fields you need
             .exec();
 
@@ -274,8 +273,6 @@ const getAllUsersController = async (req, res) => {
         });
     }
 };
-
-
 
 
 export { getAllUsersController, updateOrderStatusController, getAllordersController, orderController, updateProfileController, registerController, loginController, testController, dashboardController, forgotPasswordController };
